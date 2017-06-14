@@ -2,10 +2,12 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
 using Aggregate;
+using System.Linq;
+using FluentAssertions;
 
-namespace AggregateTest
+namespace AggregateTest.Test
 {
-    [TestClass]
+    [TestClass()]
     public class AggregateTest
     {
         [TestMethod()]
@@ -17,7 +19,7 @@ namespace AggregateTest
             var excepted = new List<int> { 6, 15, 24, 21};
 
             //act
-            var actual = target.Sum<Goods>(goods, 3, "Cost");
+            var actual = target.Sum(goods, 3, "Code");
 
             //assert
             Assert.AreEqual(excepted, actual);
@@ -32,10 +34,24 @@ namespace AggregateTest
             var excepted = new List<int> { 50, 66, 60};
 
             //act
-            var actual = target.Sum<Goods>(goods, 4, "Revenue");
+            var actual = target.Sum(goods, 4, "Revenue");
 
             //assert
             Assert.AreEqual(excepted, actual);
+        }
+
+        [TestMethod()]
+        public void rows_less_than_0_throw_argumentException()
+        {
+            //arrange
+            var target = new AggregateGoods();
+            var goods = GetGoods();
+
+            //act
+            Action actual = () => target.Sum(goods, 0, "Revenue");
+
+            //assert
+            actual.ShouldThrow<ArgumentException>();
         }
 
         private class Goods

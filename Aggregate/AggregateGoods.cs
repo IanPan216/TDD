@@ -8,10 +8,17 @@ namespace Aggregate
 {
     public class AggregateGoods
     {
-        public object Sum<T>(List<T> goods, int v1, string v2)
+        public List<int> Sum<T>(List<T> goods, int rows, string column)
         {
-            var columnSum = new List<int> { };
-            return columnSum;
+            if (rows < 0 ) {
+                throw new ArgumentException();
+            }
+          
+            var result = new List<int> { };
+            
+            
+
+            return result;
         }
     }
 }
